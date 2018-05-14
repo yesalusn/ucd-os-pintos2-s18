@@ -96,6 +96,14 @@ struct thread
 #ifdef USERPROG
     /* Owned by userprog/process.c. */
     uint32_t *pagedir;                  /* Page directory. */
+    
+    /* NIKKI YESALUSKY P2 */
+    struct list children;
+    struct semaphore c_loading;
+    struct semaphore c_dying;
+    struct file* program;
+    struct list file_list;
+    /* NIKKI YESALUSKY P2 */
 #endif
 
     /* Owned by thread.c. */
@@ -123,7 +131,7 @@ struct thread *thread_current (void);
 tid_t thread_tid (void);
 const char *thread_name (void);
 
-void thread_exit (void) NO_RETURN;
+void thread_exit (int) NO_RETURN;
 void thread_yield (void);
 
 /* Performs some operation on thread t, given auxiliary data AUX. */
